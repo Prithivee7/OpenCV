@@ -1,0 +1,79 @@
+Install opencv-contrib-python as it has additional modules when compared to opencv-python
+Caer - additional package
+
+uint8 is a image specific datatype.
+
+cv2.waitKey(0) - wait indefinitely
+cv2.waitKey(2) - Video waits for 2 milliseconds and then closes
+if cv2.waitKey(2) & 0xFF==ord('d') -> Every frame runs for 2 milliseconds and when we press 'd' the video stops
+
+When BGR image is converted to grayscale we only see the intensity distribution of pixels rather than the colour itself.
+
+Blurring an image removes some of the noise in the image
+Kernel size has to be an odd number. (3,3), (5,5)
+To increase the blur we have to increase the kernel size (3,3) ---> (7,7)
+
+Edge cascading - finding the edges in the image -> Canny Edge Detector
+This involves a lot of blurring and grading computations. 
+If the raw image is directly sent for edge detection, then we will see a lot of edges.
+But if the image is blurred before sending to edge detection, then we will see less edges.
+If we want to see more edges we go with slight blur(3,3).
+If less edges are required we go with a higher blur(7,7).
+
+Dilation - For doing dilation we have to do edge detection first. The edges are the input to dilation.
+After we dilate the edge becomes thicker.
+
+Dilation and erosion are opposite functionalities.
+We erode the dilated image to get back the edges. 
+It wont be perfect, but the edges will be well defined.
+To get best results, use the same kernel for erosion which you used for dilation.
+If the results are good the eroded image and the canny image will look more similar.
+
+Resizing
+	Interpolation cv2.INTER_AREA --> IF u r shrinking the image
+				  cv2.INTER_LINEAR and cv2.INTER_CUBIC --> If u r enlarging the image
+				  INTER_CUBIC is the slowest of all but the quality of the image is better.
+
+Cropping is done by array slicing. Since images are arrays
+
+Translation - Shifting an image along the x and y axis. So using translation we can shift the image up, down,left and right
+Negative x value means left, postive is right.
+Negative y value means up, postive is down.
+While shifting the the shifted part will remain black. The image will loose some pixels based on the number of pixels shifted.
+
+Flipping
+	FlipCode takes -> 0,1,-1
+	0 flips the image vetically -> over x axis
+	1 flips the image horizontally -> over y axis --> Gives a mirror image
+	-1 flips the image both vertically and horizontally --> Gives an upside down mirror image
+	
+Contours are basically the boundaries of the objects
+The line or curve that joins the continuous points along the boundary of an object
+
+Contours and edges are different in a mathematical point of view.
+Contours are useful in shape analysis and object detection and recognition.
+
+To find contours we first need to do edge detection (Canny)
+hierarchies - to detect a square in a rectangele which is inside a circle which is inside a triangle
+cv2.CHAIN_APPROX_SIMPLE -> gives only the important points 
+A line requires only 2 points, no need to show all the points in the line
+cv2.CHAIN_APPROX_NONE -> gives all the points
+Contours will be returned as a list. If u want to reduce the number of contours, first blur the image
+Image -> Gray scale -> Blur -> Canny -> Contours
+
+For finding contours we can also go with threshold
+Image -> Gray scale -> Threshold -> Contours
+Thresholding is a way of binarising an image. After Thresholding the image will contain only 0s and 1s
+
+In a programming point of view edges and contours are nearly the same.
+
+While choosing the block size in adaptive thresholding we should choose a value,
+which is not too large --> 113(adds more noise)
+or too small --> 11(some part of the character might be converted to white. Letters wont be clear)
+So choose somewhere in middle -> 91,85
+Keep varying them till u get proper results
+adaptive_threshold = cv2.adaptiveThreshold(gray,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.THRESH_BINARY,91,11)
+The penultimate variable is the block size and final value is constant
+These variables should always be odd numbers.
+The higher the constant(11), lesser the noise. But if it is too big it will delete some part of the text
+This constant will be subtracted from the threshold

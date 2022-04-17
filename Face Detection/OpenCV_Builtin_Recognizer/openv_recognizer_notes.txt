@@ -1,0 +1,9 @@
+For labels we use numbers instead of strings as it reduces the load on the system.
+We basically create a mapping with the number and the string.
+
+For face detection we use cv2.face.LBPHFaceRecognizer_create()
+We get the cordinates of the faces in the image by using Haar Cascade face model.
+We provide the cordinates of the face along with labels to train the model.
+
+OpenCV let's us save the model as yml files.
+Although for loading the model we have to call the class of the model.

@@ -1,0 +1,110 @@
+HSV - Hugh Saturation Value
+HSV is a colour space like gray scale and BGR
+
+HSV has same shape as that of BGR
+HSV has same shape as that of BGR
+
+opencv reads images as BGR.
+But other libraries read images as RGB. 
+So if we provide a BGR image to matplotlib and compare it with opencv.
+There will be am inversion in colour. Blue <-> Red
+So if u want to display a BGR image in matplotlib, convert it into RGB and then display
+
+
+An image can be split into red, blue and green channel
+The resulant images will be in grayscale.
+let's say there is grass in the image which is green. 
+Then in the green channel image the grass part would be in white colour
+Part of image which are devoid of green colour will be in black colour.
+
+##############################################################################################################
+When the shape of an image is (344,124) the actual shape is (344,124,1) 
+##############################################################################################################
+
+We generally perform smoothing to reduce the noise. This is done by blurring
+kernel size is number of rows and number of columns. (3,3) means 3 rows and 3 columns.
+While blurring the middle pixel gets affected by the surrounding pixels.
+For blurring the windows basically slide towards the left and after reaching the edge they move downwards and the process repeats. 
+
+Averaging - middle pixel will be replaced with the average of the surrounding pixel intensities.
+Gaussian blur - Each surrounding pixel is given a weight and the average of the product of the weight and pixel is given to center pixel. 
+In gaussian blur the blur is less when compared to averaging method for the same kernel size. This is because of the weight multiplied.
+But gaussian blur is more natural when compared to averaging.
+Median blur - finds median of surrounding pixels and assigns it to center
+Median blurring reduces noise in an image when compared to averaging and gaussian blur.
+Median blurring is very good in removing salt and pepper noise. 
+Median blurring is ineffective for large kernel sizes like (7,7) and (5,5). We can go with (3,3)
+Bilateral blurring - most effective, used in advanced computer vision projects.
+Other blurring methods blur the image without looking at whether you blur the image or not.
+Bilateral blurring applies blurring but retains the edges in the image.
+Parameters of Bilateral blurring diameter,sigma colour and sigma space 
+	Sigma Colour - larger value means that more colours in the neighbourhood will be considered when the blur is computed.
+	Sigma space - larger value means the pixels further out from the central pixel will influence the calculation.
+
+Higher the kernel size we specify the higher the blur is going to be.
+
+##############################################################################################################
+Padding - adding borders
+While filtering an image we wont be able to cover border pixels.
+To cover border pixels as well in filtering action we have two methods
+1. zero padding
+2. Pixel replication
+
+zero padding - adding 0s to the border of the image, that is above the border add this layer.
+Let's say if the matrix size is initially (4,4) after adding the zero layer the matrix will be (5,5).
+After doing this the filter image size remains the same or else without the extra layer the image
+size would shrink. Based on the size of the mask the number of layers of 0 varies. If the mask is (3,3),
+it will be sufficient to add one layer of 0. If the mask is (5,5) we have to add 2 layers of 0.
+
+cv2.copyMakeBorder() -> Used to create a border around the image like a photo frame.
+##############################################################################################################
+There are 4 basic bitwise operators AND, OR, NOT, EXOR
+
+##############################################################################################################
+Masking -> Let's say there is a photo of people and we want to focus on the faces of the people 
+It masks the faces and removes all the unwanted parts of the image.
+The dimensions of the mask has to be the same size of the image or else it wont work.
+
+##############################################################################################################
+Histograms - visualises the distribution of pixel intensities in an image
+
+##############################################################################################################
+To apply thresholding the image has to be in gray scale format.
+
+Shape of BGR image (194, 259, 3)
+Shape of gray scale image (194, 259)
+Shape of thresholded image (194, 259)
+Shape of Inverse thresholded image (194, 259)
+
+After binary thresholding we get the image in black and white. 
+On inversing the image white becomes black and vice versa.
+
+In simple thresholding we have to provide the threshold value, but in case of adaptive thresholding the algorithm
+autoatically finds the optimal threshold
+
+In case of adaptive thresholding we have to provide adaptive method, threshold type, block size, c value
+Adaptive method - tells the machine which method to use for calculating the optimal threshold value.
+	We can set it to the mean of neighbourhood of pixels ->  cv2.ADAPTIVE_THRESH_MEAN_C
+threshold type - binary threshold or inverse binary threshold 
+block size - neighbourhood size or kernel size for calculating the mean.
+c value - An integer which is subtracted from mean. This helps us to fine tune our threshold.
+c can be increased till we see clear edges.
+
+In this method the mean is computed over the specified neighbourhood or kernel.
+Based on that threshold is assigned for that specific kernel.
+And then it slides over to the right and after that down.
+
+Instead of using the ADAPTIVE_THRESH_MEAN_C method we can also go with the gaussian method.
+It adds a weight to each pixel value and computes the mean across the pixels.
+
+Mean method works well on some cases and the gaussian method works well on some cases.
+##############################################################################################################
+
+Edge detection can be done using canny, laplacian and sobel methods.
+sobel method computes the gradient in x and y directions. 
+So we get two images one consisting of horizontal gradient or edges and the other consisting of vertical gradient 
+We combine the 2 images by using bitwise OR.
+
+Canny is a multi stage algorithm and it uses sobel method as one of the steps. 
+Canny is a more advanced algorithm. Canny gives clear edges when compared with laplacian and sobe.
+Canny is used widely follwed by sobel.

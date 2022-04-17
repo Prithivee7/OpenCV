@@ -1,0 +1,10 @@
+Opening is erosion followed by dilation.
+closing is dilation followed by erosion.
+Gradient is the difference between the eroded image and the dilated image.
+Tophat is the difference between the opened image and the input image.
+Blackhat is the difference between a closed image and an input image
+
+
+
+We can do median blur to clean up the noise or erosion and dilation to remove noise
+We can follow it by thresholding.

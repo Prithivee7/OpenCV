@@ -1,0 +1,23 @@
+Face detection is performed using classifiers.
+Determines whether a face is present or not.
+
+Pre trained classifiers in OpenCV
+1. Haar Cascades - sensitive to noise
+2. Local binary patterns (advanced) -> Not prone to noise as much as Haar Cascades.
+
+Haar cascades - https://github.com/opencv/opencv/tree/master/data/haarcascades
+available for eye, face, whole body, cat face, russian number plate, smile etc.,
+haarcascade_frontalface_default.xml - for face detection
+
+Face Detection doesn't involve skin tone or the colours that are present in the image.
+The haar cascades essentially looks at an object in an image.
+Using edges tries to determine whether face is there or not.
+
+Lesser the value of minNeighbors, the more prone to noise is haar cascade.
+It tries to identify as many faces as possible. 
+But increasing the minNeighbors restricts the number of faces, since noise is removed.
+So it is required to find a balance.
+
+
+
+
