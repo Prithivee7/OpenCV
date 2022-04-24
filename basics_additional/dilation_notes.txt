@@ -1,0 +1,24 @@
+Dilation
+    Sometimes while detecting an edge, there might be some gap or it might not be joined properly.
+    While performing edge detection it won't be detected as a proper line.
+    We perform dilation after we do canny edge detection.
+    We can increase the thickness of the edge by dilating the image.
+    The number of iterations we want the kernel to move around -> how much thickness is required.
+    More the number of images, the thicker the edges become.
+
+We get good results when we perform 
+    canny -> dilation -> erosion
+
+We would have well defined edges in a canny-dilated-eroded image than a canny image.
+
+In opencv the origin of the image would be the left top corner.
+The direction of x axis is the same for opencv and math. That is x increases as we might towards right.
+But y is different in opencv, y increases as we move down.
+
+Size in opencv -> (height,width,no.of.channels)
+Numpy also follows the same convention -> height followed by width
+Resizing function in opencv ->  width followed by height
+
+Warp perspective
+    Warp perspective is used on an image to get it's bird eye view.
+    
